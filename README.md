@@ -1,13 +1,16 @@
 # 🌲 Forest Loss Prediction System
 
-A comprehensive machine learning system for predicting forest loss in geographic patches based on environmental, vegetation, and anthropogenic features.
+A professional, end-to-end system for predicting forest loss in geographic patches using environmental, vegetation, and anthropogenic features. The project centers on a production-ready runner script and a user-friendly Streamlit app.
 
 ## 🎯 Overview
 
-This system uses a Multi-Layer Perceptron (MLP) neural network to predict the likelihood of forest loss in the next period. It includes comprehensive data preprocessing, feature engineering, model training with hyperparameter optimization, and a production-ready inference pipeline.
+The system uses `forest_loss_dataset_10000.csv` as the primary datasource and `improved_forest_loss_prediction.py` as the main model runner. The runner supports three algorithms: Multi-Layer Perceptron (MLP), XGBoost, and RandomForest. It provides a complete workflow including preprocessing, feature engineering, training, evaluation, and artifact export. A Streamlit application (`streamlit_app.py`) is available for interactive usage.
 
 ## ✨ Features
 
+- **Primary runner**: `improved_forest_loss_prediction.py`
+- **Algorithms supported**: MLP, XGBoost, RandomForest
+- **Imbalance-aware evaluation**: PR-AUC and Balanced Accuracy
 - **Multi-Layer Perceptron (MLP)** with hyperparameter tuning
 - **Comprehensive feature engineering** including geographic, climate, and vegetation features
 - **Model comparison** with Random Forest and XGBoost baselines
@@ -19,7 +22,10 @@ This system uses a Multi-Layer Perceptron (MLP) neural network to predict the li
 ## 📊 Dataset
 
 The system uses `forest_loss_dataset_10000.csv` containing:
-- **10,000 samples** with 29 features
+- **10,000 samples** with 28 features
+- **Severe class imbalance**: 130 positives (1.3%), 9,870 negatives (98.7%)
+- **No missing values**
+- **Past loss events (0/1/2/3)**: 8,444 / 1,420 / 125 / 11
 - **Geographic features**: latitude, longitude, elevation, slope
 - **Environmental features**: rainfall, temperature, distance to roads
 - **Vegetation indices**: 6 months of NDVI and EVI time series
@@ -47,31 +53,24 @@ streamlit run streamlit_app.py
 ```
 This opens a web interface at `http://localhost:8501`
 
-#### Option B: Command Line Training
+#### Option B: Command Line (Improved Runner)
 ```bash
-python forest_loss_prediction.py
+python improved_forest_loss_prediction.py
 ```
 
 ### 3. Make Predictions
 
-```python
-from forest_loss_prediction import ForestLossPredictor
-
-# Load trained model
-predictor = ForestLossPredictor()
-predictor.load_model('forest_loss_model.pkl')
-
-# Make predictions on new data
-results = predictor.predict_new_data('new_data.csv')
-```
+- Streamlit: Use the "🔮 Predictions" tab to upload a CSV with the same schema as the training data and download results.
+- Console: Run `python improved_forest_loss_prediction.py` to train/evaluate. To run inference on a new CSV, use the script’s CLI options if provided or the Streamlit app for guided predictions.
 
 ## 📁 Project Structure
 
 ```
 Forest/
-├── forest_loss_dataset_10000.csv    # Dataset
-├── forest_loss_prediction.py        # Core ML pipeline
-├── streamlit_app.py                 # Web interface
+├── forest_loss_dataset_10000.csv        # Primary datasource
+├── improved_forest_loss_prediction.py   # Main model runner (MLP, XGBoost, RandomForest)
+├── forest_loss_prediction.py            # Legacy/alternative pipeline
+├── streamlit_app.py                     # Web interface
 ├── requirements.txt                 # Dependencies
 ├── technical_report.txt             # Technical documentation
 ├── README.md                       # This file
@@ -94,13 +93,14 @@ Forest/
    - Consistent preprocessing for training and inference
 
 ### Model Architecture
-- **Primary Model**: MLP with configurable hidden layers
-- **Activation**: ReLU/Tanh with L2 regularization
-- **Optimization**: Adam optimizer with early stopping
-- **Hyperparameter Tuning**: Grid search with 3-fold CV
+- **Runner design**: `improved_forest_loss_prediction.py` orchestrates data loading, preprocessing, model selection, training, evaluation, and artifact export.
+- **Algorithms**: MLP (configurable hidden layers), XGBoost, RandomForest.
+- **Optimization**: Early stopping and regularization where applicable.
+- **Hyperparameter tuning**: Grid/parameter search (where configured).
+- **Evaluation focus**: PR-AUC and Balanced Accuracy for severe class imbalance; also reports Accuracy, Precision, Recall, F1, ROC-AUC.
 
 ### Evaluation Framework
-- **Metrics**: Accuracy, Precision, Recall, F1, ROC-AUC
+- **Metrics**: Accuracy, Precision, Recall, F1, ROC-AUC, PR-AUC, Balanced Accuracy (focus on PR-AUC due to severe class imbalance)
 - **Visualizations**: Confusion matrix, ROC curves, PR curves
 - **Feature Importance**: Permutation-based analysis
 
@@ -113,7 +113,7 @@ Forest/
 
 ### 2. Model Training
 - Navigate to "🤖 Model Training" in the Streamlit app
-- Click "Start Model Training" to begin the process
+- Click "Start Model Training" to begin (uses the improved runner under the hood)
 - Monitor training progress and view results
 
 ### 3. Making Predictions
@@ -163,6 +163,7 @@ The system evaluates models using:
 - **Recall**: True positive rate among actual positives
 - **F1-Score**: Harmonic mean of precision and recall
 - **ROC-AUC**: Area under the receiver operating characteristic curve
+- **PR-AUC**: Preferred summary metric under extreme class imbalance
 
 ## 🔍 Feature Importance
 
