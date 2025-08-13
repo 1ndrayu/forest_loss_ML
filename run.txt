@@ -1,0 +1,254 @@
+#####
+RUN 1
+#####
+
+C:/Users/indra/AppData/Local/Microsoft/WindowsApps/python3.13.exe "d:/ANN projects/Forest/improved_forest_loss_prediction.py"
+IMPROVED FOREST LOSS PREDICTION WITH SMOTE
+============================================================
+Loading dataset...
+Dataset loaded: 10000 rows, 29 columns
+
+=== DATA EXPLORATION ===
+Dataset shape: (10000, 29)
+Memory usage: 2.72 MB
+
+Target variable distribution:
+Class 0 (No Loss): 9,870 samples (98.7%)
+Class 1 (Forest Loss): 130 samples (1.3%)
+Imbalance Ratio: 75.9:1
+
+Missing values:
+No missing values found
+
+Past loss events distribution (key feature):
+  0 events: 8,444 samples (84.4%)
+  1 events: 1,420 samples (14.2%)
+  2 events: 125 samples (1.2%)
+  3 events: 11 samples (0.1%)
+
+=== FEATURE PREPARATION ===
+
+=== ADVANCED FEATURE ENGINEERING ===
+Added 15 new engineered features
+Final feature count: 45
+Target distribution: [9870  130]
+
+Data split: 8000 train, 2000 test samples
+Inner split: 6400 inner-train, 1600 val samples
+
+=== APPLYING SMOTE BALANCING ===
+Before SMOTE:
+  Class 0: 6,317 samples (98.7%)
+  Class 1: 83 samples (1.3%)
+
+After SMOTE:
+  Class 0: 6,317 samples (50.0%)
+  Class 1: 6,317 samples (50.0%)
+Training set size increased from 6,400 to 12,634 samples
+
+============================================================
+TRAINING MODELS ON BALANCED DATA
+============================================================
+
+=== TRAINING ENHANCED MLP MODEL ===
+Performing randomized search (optimizing for F1-score)...
+Fitting 3 folds for each of 15 candidates, totalling 45 fits
+Best parameters: {'validation_fraction': 0.1, 'max_iter': 500, 'learning_rate_init': 0.001, 'hidden_layer_sizes': (200, 100), 'early_stopping': True, 'alpha': 0.0001, 'activation': 'relu'}
+Best CV F1-score: 0.9940
+Best threshold on validation (MLP): 0.000, Val F1: 0.0744
+
+MLP Performance:
+  Accuracy: 0.8655
+  Precision: 0.0159
+  Recall: 0.1538
+  F1-Score: 0.0289
+  ROC-AUC: 0.6092
+  Avg Precision: 0.0183
+  Confusion Matrix:
+    TN: 1727, FP: 247
+    FN: 22, TP: 4
+
+=== TRAINING ENHANCED XGBOOST MODEL ===
+Performing XGBoost randomized search (optimizing for F1-score)...
+Fitting 3 folds for each of 20 candidates, totalling 60 fits
+Best parameters: {'subsample': 1.0, 'scale_pos_weight': np.float64(1.0), 'n_estimators': 200, 'max_depth': 5, 'learning_rate': 0.2, 'colsample_bytree': 0.9}
+Best CV F1-score: 0.9954
+Best threshold on validation (XGBoost): 0.029, Val F1: 0.0411
+
+XGBoost Performance:
+  Accuracy: 0.9190
+  Precision: 0.0526
+  Recall: 0.3077
+  F1-Score: 0.0899
+  ROC-AUC: 0.7542
+  Avg Precision: 0.0393
+  Confusion Matrix:
+    TN: 1830, FP: 144
+    FN: 18, TP: 8
+
+=== TRAINING ENHANCED RANDOM FOREST MODEL ===
+Performing Random Forest randomized search (optimizing for F1-score)...
+Fitting 3 folds for each of 20 candidates, totalling 60 fits
+Best parameters: {'n_estimators': 200, 'min_samples_split': 2, 'min_samples_leaf': 1, 'max_depth': None, 'class_weight': 'balanced_subsample'}
+Best CV F1-score: 0.9961
+Best threshold on validation (Random Forest): 0.120, Val F1: 0.0687
+
+Random Forest Performance:
+  Accuracy: 0.8615
+  Precision: 0.0264
+  Recall: 0.2692
+  F1-Score: 0.0481
+  ROC-AUC: 0.7633
+  Avg Precision: 0.0385
+  Confusion Matrix:
+    TN: 1716, FP: 258
+    FN: 19, TP: 7
+
+=== MODEL COMPARISON ===
+Model Performance Summary:
+               f1_score precision    recall   roc_auc accuracy
+MLP            0.028881  0.015936  0.153846  0.609169   0.8655
+XGBoost        0.089888  0.052632  0.307692  0.754209    0.919
+Random Forest   0.04811  0.026415  0.269231  0.763327   0.8615
+
+Best Model: XGBoost (F1-Score: 0.0899)
+Results visualization saved as 'improved_forest_loss_results.png'
+
+Best model (XGBoost) saved as 'best_forest_loss_model_xgboost.pkl'
+
+============================================================
+IMPROVED FOREST LOSS PREDICTION COMPLETE!
+============================================================
+Data imbalance fixed with SMOTE
+Models retrained on balanced data
+Evaluation focused on F1-score, precision, and recall
+Best model: XGBoost
+Advanced feature engineering implementedy
+
+#####
+RUN 2
+#####
+
+PS D:\ANN projects\Forest> & C:/Users/indra/AppData/Local/Microsoft/WindowsApps/python3.13.exe "d:/ANN projects/Forest/improved_forest_loss_prediction.py"
+IMPROVED FOREST LOSS PREDICTION WITH SMOTE
+============================================================
+Loading dataset...
+Dataset loaded: 10000 rows, 29 columns
+
+=== DATA EXPLORATION ===
+Dataset shape: (10000, 29)
+Memory usage: 2.72 MB
+
+Target variable distribution:
+Class 0 (No Loss): 9,870 samples (98.7%)
+Class 1 (Forest Loss): 130 samples (1.3%)
+Imbalance Ratio: 75.9:1
+
+Missing values:
+No missing values found
+
+Past loss events distribution (key feature):
+  0 events: 8,444 samples (84.4%)
+  1 events: 1,420 samples (14.2%)
+  2 events: 125 samples (1.2%)
+  3 events: 11 samples (0.1%)
+
+=== FEATURE PREPARATION ===
+
+=== ADVANCED FEATURE ENGINEERING ===
+Added 15 new engineered features
+Final feature count: 45
+Target distribution: [9870  130]
+
+Data split: 8000 train, 2000 test samples
+Inner split: 6400 inner-train, 1600 val samples
+
+=== APPLYING SMOTE BALANCING ===
+Before SMOTE:
+  Class 0: 6,317 samples (98.7%)
+  Class 1: 83 samples (1.3%)
+
+After SMOTE:
+  Class 0: 6,317 samples (50.0%)
+  Class 1: 6,317 samples (50.0%)
+Training set size increased from 6,400 to 12,634 samples
+
+============================================================
+TRAINING MODELS ON BALANCED DATA
+============================================================
+
+=== TRAINING ENHANCED MLP MODEL ===
+Performing randomized search (optimizing for F1-score)...
+Fitting 2 folds for each of 10 candidates, totalling 20 fits
+Best parameters: {'validation_fraction': 0.1, 'max_iter': 500, 'learning_rate_init': 0.001, 'hidden_layer_sizes': (200, 100), 'early_stopping': True, 'alpha': 0.01, 'activation': 'relu'}
+Best CV F1-score: 0.9914
+Best threshold on validation (MLP): 0.001, Val F1: 0.0684
+
+MLP Performance:
+  Accuracy: 0.8475
+  Precision: 0.0173
+  Recall: 0.1923
+  F1-Score: 0.0317
+  ROC-AUC: 0.6097
+  Avg Precision: 0.0186
+  Confusion Matrix:
+    TN: 1690, FP: 284
+    FN: 21, TP: 5
+
+=== TRAINING ENHANCED XGBOOST MODEL ===
+Performing XGBoost randomized search (optimizing for F1-score)...
+Fitting 2 folds for each of 10 candidates, totalling 20 fits
+Best parameters: {'subsample': 0.8, 'scale_pos_weight': np.float64(1.0), 'n_estimators': 200, 'max_depth': 5, 'learning_rate': 0.1, 'colsample_bytree': 0.8}
+Best CV F1-score: 0.9906
+Best threshold on validation (XGBoost): 0.243, Val F1: 0.0882
+
+XGBoost Performance:
+  Accuracy: 0.9555
+  Precision: 0.0154
+  Recall: 0.0385
+  F1-Score: 0.0220
+  ROC-AUC: 0.7652
+  Avg Precision: 0.0342
+  Confusion Matrix:
+    TN: 1910, FP: 64
+    FN: 25, TP: 1
+
+=== TRAINING ENHANCED RANDOM FOREST MODEL ===
+Performing Random Forest randomized search (optimizing for F1-score)...
+Fitting 2 folds for each of 10 candidates, totalling 20 fits
+Best parameters: {'n_estimators': 100, 'min_samples_split': 5, 'min_samples_leaf': 2, 'max_depth': None, 'class_weight': 'balanced_subsample'}
+Best CV F1-score: 0.9935
+Best threshold on validation (Random Forest): 0.138, Val F1: 0.0657
+
+Random Forest Performance:
+  Accuracy: 0.8710
+  Precision: 0.0323
+  Recall: 0.3077
+  F1-Score: 0.0584
+  ROC-AUC: 0.7573
+  Avg Precision: 0.0400
+  Confusion Matrix:
+    TN: 1734, FP: 240
+    FN: 18, TP: 8
+
+=== MODEL COMPARISON ===
+Model Performance Summary:
+               f1_score precision    recall   roc_auc accuracy
+MLP            0.031746  0.017301  0.192308  0.609656   0.8475
+XGBoost        0.021978  0.015385  0.038462  0.765198   0.9555
+Random Forest  0.058394  0.032258  0.307692  0.757307    0.871
+
+Best Model: Random Forest (F1-Score: 0.0584)
+Results visualization saved as 'improved_forest_loss_results.png'
+
+Best model (Random Forest) saved as 'best_forest_loss_model_random_forest.pkl'
+
+============================================================
+IMPROVED FOREST LOSS PREDICTION COMPLETE!
+============================================================
+Data imbalance fixed with SMOTE
+Models retrained on balanced data
+Evaluation focused on F1-score, precision, and recall
+Best model: Random Forest
+Advanced feature engineering implemented
+PS D:\ANN projects\Forest> 
